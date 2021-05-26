@@ -12,7 +12,7 @@ const app = Vue.createApp({
     },
     watch: {
         record(newRecord) {
-            fetch('https://damp-river-63053.herokuapp.com/api/records/patients/' + newRecord.patient._id)
+            fetch('/api/records/patients/' + newRecord.patient._id)
                 .then(response => response.json())
                 .then(json => this.patientRecords = json.data.records);
         }
@@ -27,7 +27,7 @@ const app = Vue.createApp({
     },
     methods: {
         fetchRecords() {
-            fetch('https://damp-river-63053.herokuapp.com/api/records/dates/' + this.date)
+            fetch('/api/records/dates/' + this.date)
                 .then(response => response.json())
                 .then(json => this.result = json)
         },
@@ -35,7 +35,7 @@ const app = Vue.createApp({
             this.record = selectedRecord;
         },
         patchRecord(patchedData) {
-            axios.patch('https://damp-river-63053.herokuapp.com/api/records/' + this.record._id + '/update', patchedData)
+            axios.patch('/api/records/' + this.record._id + '/update', patchedData)
                 .then(() => this.fetchRecords());
         }
     }
