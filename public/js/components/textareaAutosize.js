@@ -13,6 +13,9 @@ app.component('textarea-autosize', {
             default: null
         }
     },
+    emits: {
+        valueChange: null
+    },
     template:
         /*html*/
         `<div class="grow-wrap" :data-replicated-value="replicatedValue">
@@ -33,7 +36,7 @@ app.component('textarea-autosize', {
     },
     methods: {
         valueChange() {
-            this.$emit('value-change', this.replicatedValue);
+            this.$emit('valueChange', this.replicatedValue);
         }
     }
 })

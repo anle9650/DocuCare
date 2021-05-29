@@ -6,6 +6,9 @@ app.component('record-display', {
             default: null
         }
     },
+    emits: {
+        selectRecord: null
+    },
     template:
         /*html*/
         `<li>
@@ -30,7 +33,7 @@ app.component('record-display', {
     },
     methods: {
         selectRecord() {
-            this.$emit('select-record', this.recordObj);
+            this.$emit('selectRecord', this.recordObj);
         }
     }
 })

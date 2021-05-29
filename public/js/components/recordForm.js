@@ -6,6 +6,9 @@ app.component('record-form', {
             default: null
         }
     },
+    emits: {
+        recordChange: null
+    },
     template: 
         /*html*/
         `<div class="page-header">
@@ -56,20 +59,20 @@ app.component('record-form', {
     },
     methods: {
         updateHpi(updatedValue) {
-            this.$emit('record-change', { "hpi": updatedValue });
+            this.$emit('recordChange', { "hpi": updatedValue });
         },
         updateRos(updatedValue) {
-            this.$emit('record-change', { "ros": updatedValue });
+            this.$emit('recordChange', { "ros": updatedValue });
         },
         updateExam(updatedValue) {
-            this.$emit('record-change', { "exam": updatedValue });
+            this.$emit('recordChange', { "exam": updatedValue });
         },
         updateAssessment(updatedValue) {
-            this.$emit('record-change', { "assessment": updatedValue });
+            this.$emit('recordChange', { "assessment": updatedValue });
         },
         toggleComplete() {
             this.complete = !this.complete;
-            this.$emit('record-change', { "complete": this.complete });
+            this.$emit('recordChange', { "complete": this.complete });
         }
     }
 })
