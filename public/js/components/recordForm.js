@@ -47,7 +47,7 @@ app.component('record-form', {
     },
     computed: {
         recordObj() {
-            if (this.record != null) {
+            if (this.record) {
                 let record = JSON.parse(this.record);
                 record.date = new Date(record.date);
                 record.patient.DOB = new Date(record.patient.DOB);

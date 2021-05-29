@@ -22,7 +22,7 @@ app.component('record-display', {
         </li>`,
     computed: {
         recordObj() {
-            if (this.record != null) {
+            if (this.record) {
                 let record = JSON.parse(this.record);
                 record.date = new Date(record.date);
                 return record;
