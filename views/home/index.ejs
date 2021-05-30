@@ -10,17 +10,19 @@
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <!-- Vue.js CDN -->
     <script src="https://unpkg.com/vue@3.0.11"></script>
+    <!-- Axios CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -31,25 +33,25 @@
                 <h3>Schedule</h3>
             </div>
             <ul class="list-unstyled components">
-                <p>Today <a href="calender"><i class="glyphicon glyphicon-calendar"></i></a></p>
+                <p>Today <a href="calender"><i class="bi bi-calendar3"></i></a></p>
                 <li class="active">
-                    <a href="#allSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" @click="fetchRecords">All</a>
+                    <a href="#allSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">All</a>
                     <ul class="collapse list-unstyled" id="allSubmenu">
-                        <record-display v-if="result != null" v-for="(record, index) in result.data.records" :key="record.id" :record="JSON.stringify(record)" @select-record="setRecord"></record-display>
+                        <record-display v-if="result != null" v-for="(record, index) in result.data.records" :key="record.id" :record="JSON.stringify(record)" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
                         <li v-else>No results found.</li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#arrivedSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" @click="fetchRecords">Arrived</a>
+                    <a href="#arrivedSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Arrived</a>
                     <ul class="collapse list-unstyled" id="arrivedSubmenu">
-                        <record-display v-if="result != null" v-for="(record, index) in arrived" :key="record.id" :record="JSON.stringify(record)" @select-record="setRecord"></record-display>
+                        <record-display v-if="result != null" v-for="(record, index) in arrived" :key="record.id" :record="JSON.stringify(record)" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
                         <li v-else>No results found.</li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#incompleteSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" @click="fetchRecords">Incomplete</a>
+                    <a href="#incompleteSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incomplete</a>
                     <ul class="collapse list-unstyled" id="incompleteSubmenu">
-                        <record-display v-if="result != null" v-for="(record, index) in incomplete" :key="record.id" :record="JSON.stringify(record)" @select-record="setRecord"></record-display>
+                        <record-display v-if="result != null" v-for="(record, index) in incomplete" :key="record.id" :record="JSON.stringify(record)" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
                         <li v-else>No results found.</li>
                     </ul>
                 </li>
@@ -62,26 +64,22 @@
                 <h3>All visits</h3>
             </div>
             <ul class="list-unstyled components">
-                <li v-for="(record, index) in patientRecords" :key="record.id">
-                    <a href="#" @click="setRecord(record)">{{ new Date(record.date).toLocaleDateString("en-US") }} &#183; {{ record.problem }}</a>
-                </li>
+                <record-display v-for="(record, index) in patientRecords" :key="record.id" :record="JSON.stringify(record)" :complete-display="false" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
             </ul>
         </nav>
         <!-- Page Content -->
-        <div id="content">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div id="content" :class="[ blurForm ? 'container blur' : 'container' ]">
+            <nav class="navbar navbar-expand-lg">
                 <button type="button" id="sidebarCollapse" class="btn btn-info" @click="showSchedule = !showSchedule">
                     <i class="fas fa-align-left"></i>
                     <span> {{ showSchedule ? ' Show patient records' : ' Show schedule' }}</span>
                 </button>
-                <div class="form-outline">
+                <div class="col-4 mr-auto form-outline">
                     <input type="search" id="form1" class="form-control" placeholder="Patient name or ID number"
                     aria-label="Search" />
                 </div>
             </nav>
-            <div class="container">
-                <record-form v-if="record != null" :record="JSON.stringify(record)" @record-change="patchRecord"></record-form>
-            </div>
+            <record-form v-if="record != null" :record="JSON.stringify(record)" @record-change="patchRecord"></record-form>
         </div>
 
     </div>
@@ -94,10 +92,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="js/script.js"></script>
 
     <!-- Vue app and components -->
     <script src="js/main.js"></script>
+    <script src="js/components/popoverAnchor.js"></script>
     <script src="js/components/recordDisplay.js"></script>
     <script src="js/components/textareaAutosize.js"></script>
     <script src="js/components/recordForm.js"></script>

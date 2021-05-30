@@ -1,7 +1,16 @@
 const app = Vue.createApp({
+    mounted() {
+        this.fetchRecords();
+        this.$nextTick(function() {
+            $(".sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+        });
+    },
     data() {
         return {
             showSchedule: true,
+            blurForm: false,
             provider: '60a4814bc1b17d208033beb2',
             date: 'Tue%20May%2018%202021',
             keyword: '',

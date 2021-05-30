@@ -105,13 +105,13 @@ ul ul a {
     background: #6d7fcc;
 }
 
-.no-mode-fade-enter-active, .no-mode-fade-leave-active {
-    transition: opacity .3s
-  }
-  
-  .no-mode-fade-enter-from, .no-mode-fade-leave-to {
-    opacity: 0
-  }
+.popover{
+    max-width: 50%; /* Max Width of the popover (depending on the container!) */
+}
+
+.blur {
+    filter: blur(2px);
+}
 
 .grow-wrap {
     /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
