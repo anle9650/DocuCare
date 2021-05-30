@@ -17,23 +17,23 @@ app.component('record-form', {
             </h1>
             <div class="text-muted">{{ this.recordObj.patient.gender }} &#183; Date of birth: {{ this.recordObj.patient.DOB.toLocaleDateString("en-US") }}</div>
         </div>
-        <div v-if="!complete">
+        <div v-if="!this.complete">
             <form>
                 <div class="form-group"> 
                     <label for="hpi">History of Patient Illness</label>
-                    <textarea-autosize id="hpi" name="hpi" :value="this.recordObj.hpi" :key="this.recordObj._id" @value-change="updateHpi"></textarea-autosize>
+                    <textarea-autosize id="hpi" name="hpi" :value="this.recordObj.hpi" :key="this.recordObj._id" @input="updateHpi"></textarea-autosize>
                 </div>
                 <div class="form-group">
                     <label for="ros">Review of Systems</label>
-                    <textarea-autosize id="ros" name="ros" :value="this.recordObj.ros" :key="this.recordObj._id" @value-change="updateRos"></textarea-autosize>
+                    <textarea-autosize id="ros" name="ros" :value="this.recordObj.ros" :key="this.recordObj._id" @input="updateRos"></textarea-autosize>
                 </div>
                 <div class="form-group">
                     <label for="exam">Physical Exam</label>
-                    <textarea-autosize id="exam" name="exam" :value="this.recordObj.exam" :key="this.recordObj._id" @value-change="updateExam"></textarea-autosize>
+                    <textarea-autosize id="exam" name="exam" :value="this.recordObj.exam" :key="this.recordObj._id" @input="updateExam"></textarea-autosize>
                 </div>
                 <div class="form-group">
                     <label for="assessment">Assessment & Plan</label>
-                    <textarea-autosize id="assessment" name="assessment" :value="this.recordObj.assessment" :key="this.recordObj._id" @value-change="updateAssessment"></textarea-autosize>
+                    <textarea-autosize id="assessment" name="assessment" :value="this.recordObj.assessment" :key="this.recordObj._id" @input="updateAssessment"></textarea-autosize>
                 </div>
                 
                 <button type="button" class="btn btn-primary" @click="toggleComplete">Sign-off record</button>
@@ -68,7 +68,7 @@ app.component('record-form', {
         </div>`,
     data() {
         return {
-            complete: () => this.recordObj.complete
+            complete: JSON.parse(this.record).complete
         }
     },
     watch: {
