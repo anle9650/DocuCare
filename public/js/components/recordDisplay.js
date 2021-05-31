@@ -38,16 +38,10 @@ app.component('record-display', {
                 return null;
         },
         recordPreview() {
-            let template = "";
-            if (this.recordObj.hpi)
-                template += "<b>History of Patient Illness</b><br/>" + this.recordObj.hpi + "<hr/>";
-            if (this.recordObj.ros)
-                template += "<b>Review of Systems</b><br/>" + this.recordObj.ros + "<hr/>";
-            if (this.recordObj.exam)
-                template += "<b>Physical Exam</b><br/>" + this.recordObj.exam + "<hr/>";
-            if (this.recordObj.assessment)
-                template += "<b>Assessment & Plan</b><br/>" + this.recordObj.assessment + "<hr/>";
-            return template;
+            return "<b>History of Patient Illness</b><br/>" + this.recordObj.hpi + 
+                    "<hr/><b>Review of Systems</b><br/>" + this.recordObj.ros + 
+                    "<hr/><b>Physical Exam</b><br/>" + this.recordObj.exam + 
+                    "<hr/><b>Assessment & Plan</b><br/>" + this.recordObj.assessment;
         }
     }
 })

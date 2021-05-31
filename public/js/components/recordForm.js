@@ -66,9 +66,15 @@ app.component('record-form', {
             <hr/>
             <button type="button" class="btn btn-primary" @click="toggleComplete">Ammend record</button>
         </div>`,
+    mounted() {
+        this.$nextTick(function() {
+
+        });
+    },
     data() {
         return {
-            complete: JSON.parse(this.record).complete
+            complete: JSON.parse(this.record).complete,
+            searchResults: []
         }
     },
     watch: {
@@ -104,6 +110,11 @@ app.component('record-form', {
         toggleComplete() {
             this.complete = !this.complete;
             this.$emit('recordChange', { "complete": this.complete });
+        },
+        fetchDiagnoses(query) {
+            fetch('https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=' + query)
+                .then(response => response.json())
+                .then(json => this.searchResults = json[3]);
         }
     }
 })
