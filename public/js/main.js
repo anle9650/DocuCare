@@ -43,9 +43,14 @@ const app = Vue.createApp({
         setRecord(selectedRecord) {
             this.record = selectedRecord;
         },
-        patchRecord(patchedData) {
-            axios.patch('/api/records/' + this.record._id + '/update', patchedData)
+        updateRecord(newData) {
+            if (newData.diagnoses) {
+                axios.put('/api/records/' + this.record._id + '/addDiagnosis', newData)
                 .then(() => this.fetchRecords());
+            } else {
+                axios.patch('/api/records/' + this.record._id + '/patch', newData)
+                .then(() => this.fetchRecords());
+            }
         }
     }
 });

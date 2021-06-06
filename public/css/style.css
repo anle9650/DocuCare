@@ -16,20 +16,6 @@
     margin-left: -250px;
 }
 
-#sidebar-right {
-   position: absolute;
-    min-width: 250px;
-    max-width: 250px;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    z-index: 999;
-}
-
-#sidebar-right.inactive {
-    margin-right: -250px;
-}
-
 a[data-toggle="collapse"] {
     position: relative;
 }
@@ -77,7 +63,6 @@ a, a:hover, a:focus {
 
 .sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #ffffff;
 }
 
 .sidebar ul p {
@@ -105,12 +90,19 @@ ul ul a {
     background: #6d7fcc;
 }
 
-.popover{
+.popover {
     max-width: 50%; /* Max Width of the popover (depending on the container!) */
+    white-space: break-spaces;
 }
 
 .blur {
     filter: blur(2px);
+}
+
+#content {
+    width: 100%;
+    max-height: 100vh;
+    overflow: scroll;
 }
 
 .grow-wrap {
@@ -141,4 +133,8 @@ ul ul a {
 
     /* Place on top of each other */
     grid-area: 1 / 1 / 2 / 2;
+}
+
+.formatted-record {
+    white-space: pre-line;
 }

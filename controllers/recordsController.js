@@ -1,4 +1,5 @@
 const Record = require("../models/record"),
+    Patient = require("../models/patient"),
     httpStatus = require("http-status-codes");
 
 module.exports = {
@@ -16,22 +17,6 @@ module.exports = {
                 next(error);
             });
     },
-    update: (req, res, next) => {
-        let recordId = req.params.id,
-            recordParam = req.body;
-        Record.findByIdAndUpdate(recordId, {
-            $set: recordParam
-        })
-        .then(newRecord => {
-            res.locals.record = newRecord;
-            res.locals.success = true;
-            next();
-        })
-        .catch(error => {
-            console.log(`Error updating record: ${error.message}`)
-            next(error);
-        });
-    },
     filterByDate: (req, res, next) => {
         let date = req.params.date,
             filteredRecords = res.locals.records.filter(record => {
@@ -47,6 +32,44 @@ module.exports = {
         filteredRecords.sort((a, b) => b.date - a.date);
         res.locals.records = filteredRecords;
         next();
+    },
+    patch: (req, res, next) => {
+        let recordId = req.params.id,
+            recordParam = req.body;
+        Record.findByIdAndUpdate(recordId, {
+            $set: recordParam
+        })
+        .then(newRecord => {
+            res.locals.record = newRecord;
+            res.locals.success = true;
+            next();
+        })
+        .catch(error => {
+            console.log(`Error updating record: ${error.message}`)
+            next(error);
+        });
+    },
+    addDiagnosis: (req, res, next) => {
+        let recordId = req.params.id,
+            recordParam = req.body;
+        Record.findByIdAndUpdate(recordId, {
+            $addToSet: recordParam
+        })
+        .then(newRecord => {
+            res.locals.record = newRecord;
+            return Patient.findByIdAndUpdate(newRecord.patient, {
+                $addToSet: recordParam
+            });
+        })
+        .then(newPatient => {
+            res.locals.patient = newPatient;
+            res.locals.success = true;
+            next();
+        })
+        .catch(error => {
+            console.log(`Error updating record: ${error.message}`)
+            next(error);
+        });
     },
     respondJSON: (req, res) => {
         res.json({

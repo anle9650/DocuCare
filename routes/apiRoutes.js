@@ -3,6 +3,7 @@ const router = require("express").Router(),
 
 router.get("/records/dates/:date", recordsController.index, recordsController.filterByDate, recordsController.respondJSON);
 router.get("/records/patients/:patient", recordsController.index, recordsController.filterByPatient, recordsController.respondJSON);
-router.patch("/records/:id/update", recordsController.update, recordsController.respondJSON);
+router.patch("/records/:id/patch", recordsController.patch, recordsController.respondJSON);
+router.put("/records/:id/addDiagnosis", recordsController.addDiagnosis, recordsController.respondJSON);
 
 module.exports = router;

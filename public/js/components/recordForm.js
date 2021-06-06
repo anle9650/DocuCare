@@ -18,7 +18,7 @@ app.component('record-form', {
             <div class="text-muted">{{ this.recordObj.patient.gender }} &#183; Date of birth: {{ this.recordObj.patient.DOB.toLocaleDateString("en-US") }}</div>
         </div>
         <div v-if="!this.complete">
-            <form>
+            <form onsubmit="return false;">
                 <div class="form-group"> 
                     <label for="hpi">History of Patient Illness</label>
                     <textarea-autosize id="hpi" name="hpi" :value="this.recordObj.hpi" :key="this.recordObj._id" @input="updateHpi"></textarea-autosize>
@@ -32,6 +32,17 @@ app.component('record-form', {
                     <textarea-autosize id="exam" name="exam" :value="this.recordObj.exam" :key="this.recordObj._id" @input="updateExam"></textarea-autosize>
                 </div>
                 <div class="form-group">
+                    <label>Diagnoses</label>
+                    <search-bar :key="this.recordObj._id" @select-diagnosis="addDiagnosis"></search-bar>
+                    <div v-for="diagnosis in this.diagnoses">
+                        <div class="badge badge-pill badge-secondary">
+                            {{ diagnosis }}
+                            <a href="#"><i class="bi bi-x"></i></a>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="assessment">Assessment & Plan</label>
                     <textarea-autosize id="assessment" name="assessment" :value="this.recordObj.assessment" :key="this.recordObj._id" @input="updateAssessment"></textarea-autosize>
                 </div>
@@ -39,7 +50,7 @@ app.component('record-form', {
                 <button type="button" class="btn btn-primary" @click="toggleComplete">Sign-off record</button>
             </form>
         </div>
-        <div v-else>
+        <div class="formatted-record" v-else>
             <div>
                 <b>History of Patient Illness</b>
                 <br/>
@@ -59,6 +70,14 @@ app.component('record-form', {
             </div>
             <hr/>
             <div>
+                <b>Diagnoses</b>
+                <br/>
+                <ul>
+                    <li v-for="diagnosis in this.diagnoses">{{ diagnosis }}</li>
+                </ul>
+            </div>
+            <hr/>
+            <div>
                 <b>Assessment & Plan</b>
                 <br/>
                 {{ this.recordObj.assessment }}
@@ -66,20 +85,20 @@ app.component('record-form', {
             <hr/>
             <button type="button" class="btn btn-primary" @click="toggleComplete">Ammend record</button>
         </div>`,
-    mounted() {
-        this.$nextTick(function() {
-
-        });
-    },
     data() {
         return {
             complete: JSON.parse(this.record).complete,
-            searchResults: []
+            diagnoses: new Set()
         }
+    },
+    mounted() {
+        this.recordObj.diagnoses.forEach(icd => this.fetchDiagnosis(icd));
     },
     watch: {
         record(newRecord) {
             this.complete = JSON.parse(newRecord).complete;
+            this.diagnoses = new Set();
+            this.recordObj.diagnoses.forEach(icd => this.fetchDiagnosis(icd));
         }
     },
     computed: {
@@ -95,6 +114,11 @@ app.component('record-form', {
         }
     },
     methods: {
+        fetchDiagnosis(icd) {
+            fetch('https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=' + icd)
+            .then(response => response.json())
+            .then(json => this.diagnoses.add(json[3][0][1]));
+        },
         updateHpi(updatedValue) {
             this.$emit('recordChange', { "hpi": updatedValue });
         },
@@ -107,14 +131,13 @@ app.component('record-form', {
         updateAssessment(updatedValue) {
             this.$emit('recordChange', { "assessment": updatedValue });
         },
+        addDiagnosis(newIcd) {
+            this.fetchDiagnosis(newIcd);
+            this.$emit('recordChange', { "diagnoses": newIcd });
+        },
         toggleComplete() {
             this.complete = !this.complete;
             this.$emit('recordChange', { "complete": this.complete });
-        },
-        fetchDiagnoses(query) {
-            fetch('https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=' + query)
-                .then(response => response.json())
-                .then(json => this.searchResults = json[3]);
         }
     }
 })

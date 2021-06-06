@@ -37,21 +37,45 @@
                 <li class="active">
                     <a href="#allSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">All</a>
                     <ul class="collapse list-unstyled" id="allSubmenu">
-                        <record-display v-if="result != null" v-for="(record, index) in result.data.records" :key="record.id" :record="JSON.stringify(record)" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
+                        <record-display 
+                            v-if="result != null" 
+                            v-for="(record, index) in result.data.records" 
+                            :key="record.id" 
+                            :record="JSON.stringify(record)" 
+                            @mouseover="blurForm = true" 
+                            @mouseleave="blurForm = false" 
+                            @click="setRecord(record)"
+                        ></record-display>
                         <li v-else>No results found.</li>
                     </ul>
                 </li>
                 <li>
                     <a href="#arrivedSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Arrived</a>
                     <ul class="collapse list-unstyled" id="arrivedSubmenu">
-                        <record-display v-if="result != null" v-for="(record, index) in arrived" :key="record.id" :record="JSON.stringify(record)" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
+                        <record-display 
+                            v-if="result != null" 
+                            v-for="(record, index) in arrived" 
+                            :key="record.id" 
+                            :record="JSON.stringify(record)" 
+                            @mouseover="blurForm = true" 
+                            @mouseleave="blurForm = false" 
+                            @click="setRecord(record)"
+                        ></record-display>
                         <li v-else>No results found.</li>
                     </ul>
                 </li>
                 <li>
                     <a href="#incompleteSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incomplete</a>
                     <ul class="collapse list-unstyled" id="incompleteSubmenu">
-                        <record-display v-if="result != null" v-for="(record, index) in incomplete" :key="record.id" :record="JSON.stringify(record)" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
+                        <record-display 
+                            v-if="result != null" 
+                            v-for="(record, index) in incomplete" 
+                            :key="record.id" 
+                            :record="JSON.stringify(record)" 
+                            @mouseover="blurForm = true" 
+                            @mouseleave="blurForm = false" 
+                            @click="setRecord(record)"
+                        ></record-display>
                         <li v-else>No results found.</li>
                     </ul>
                 </li>
@@ -64,22 +88,32 @@
                 <h3>All visits</h3>
             </div>
             <ul class="list-unstyled components">
-                <record-display v-for="(record, index) in patientRecords" :key="record.id" :record="JSON.stringify(record)" :complete-display="false" @mouseover="blurForm = true" @mouseleave="blurForm = false" @click="setRecord(record)"></record-display>
+                <record-display 
+                    v-for="(record, index) in patientRecords" 
+                    :key="record.id" 
+                    :record="JSON.stringify(record)" 
+                    :complete-display="false" 
+                    @mouseover="blurForm = true" 
+                    @mouseleave="blurForm = false" 
+                    @click="setRecord(record)"
+                ></record-display>
             </ul>
         </nav>
         <!-- Page Content -->
-        <div id="content" :class="[ blurForm ? 'container blur' : 'container' ]">
-            <nav class="navbar navbar-expand-lg">
-                <button type="button" id="sidebarCollapse" class="btn btn-info" @click="showSchedule = !showSchedule">
-                    <i class="fas fa-align-left"></i>
-                    <span> {{ showSchedule ? ' Show patient records' : ' Show schedule' }}</span>
-                </button>
-                <div class="col-4 mr-auto form-outline">
-                    <input type="search" id="form1" class="form-control" placeholder="Patient name or ID number"
-                    aria-label="Search" />
-                </div>
-            </nav>
-            <record-form v-if="record != null" :record="JSON.stringify(record)" @record-change="patchRecord"></record-form>
+        <div id="content">
+            <div :class="[ blurForm ? 'container blur' : 'container' ]">
+                <nav class="navbar navbar-expand-lg">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info" @click="showSchedule = !showSchedule">
+                        <i class="fas fa-align-left"></i>
+                        <span> {{ showSchedule ? ' Show patient records' : ' Show schedule' }}</span>
+                    </button>
+                    <div class="col-4 mr-auto form-outline">
+                        <input type="search" id="form1" class="form-control" placeholder="Patient name or ID number"
+                        aria-label="Search" />
+                    </div>
+                </nav>
+            <record-form v-if="record != null" :record="JSON.stringify(record)" @record-change="updateRecord"></record-form>
+            </div>
         </div>
 
     </div>
@@ -98,6 +132,7 @@
     <script src="js/components/popoverAnchor.js"></script>
     <script src="js/components/recordDisplay.js"></script>
     <script src="js/components/textareaAutosize.js"></script>
+    <script src="js/components/searchBar.js"></script>
     <script src="js/components/recordForm.js"></script>
 
 </body>
