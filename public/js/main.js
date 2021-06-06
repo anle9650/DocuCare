@@ -1,12 +1,4 @@
 const app = Vue.createApp({
-    mounted() {
-        this.fetchRecords();
-        this.$nextTick(function() {
-            $(".sidebar").mCustomScrollbar({
-                theme: "minimal"
-            });
-        });
-    },
     data() {
         return {
             showSchedule: true,
@@ -18,6 +10,16 @@ const app = Vue.createApp({
             record: null,
             patientRecords: null
         }
+    },
+    created() {
+        this.fetchRecords();
+    },
+    mounted() {
+        this.$nextTick(function() {
+            $(".sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+        });
     },
     watch: {
         record(newRecord) {

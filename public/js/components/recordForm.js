@@ -21,15 +21,15 @@ app.component('record-form', {
             <form onsubmit="return false;">
                 <div class="form-group"> 
                     <label for="hpi">History of Patient Illness</label>
-                    <textarea-autosize id="hpi" name="hpi" :value="this.recordObj.hpi" :key="this.recordObj._id" @input="updateHpi"></textarea-autosize>
+                    <textarea-autosize id="hpi" name="hpi" :value="this.hpi" :key="this.recordObj._id" @input="updateHpi"></textarea-autosize>
                 </div>
                 <div class="form-group">
                     <label for="ros">Review of Systems</label>
-                    <textarea-autosize id="ros" name="ros" :value="this.recordObj.ros" :key="this.recordObj._id" @input="updateRos"></textarea-autosize>
+                    <textarea-autosize id="ros" name="ros" :value="this.ros" :key="this.recordObj._id" @input="updateRos"></textarea-autosize>
                 </div>
                 <div class="form-group">
                     <label for="exam">Physical Exam</label>
-                    <textarea-autosize id="exam" name="exam" :value="this.recordObj.exam" :key="this.recordObj._id" @input="updateExam"></textarea-autosize>
+                    <textarea-autosize id="exam" name="exam" :value="this.exam" :key="this.recordObj._id" @input="updateExam"></textarea-autosize>
                 </div>
                 <div class="form-group">
                     <label>Diagnoses</label>
@@ -44,7 +44,7 @@ app.component('record-form', {
                 </div>
                 <div class="form-group">
                     <label for="assessment">Assessment & Plan</label>
-                    <textarea-autosize id="assessment" name="assessment" :value="this.recordObj.assessment" :key="this.recordObj._id" @input="updateAssessment"></textarea-autosize>
+                    <textarea-autosize id="assessment" name="assessment" :value="this.assessment" :key="this.recordObj._id" @input="updateAssessment"></textarea-autosize>
                 </div>
                 
                 <button type="button" class="btn btn-primary" @click="toggleComplete">Sign-off record</button>
@@ -54,19 +54,19 @@ app.component('record-form', {
             <div>
                 <b>History of Patient Illness</b>
                 <br/>
-                {{ this.recordObj.hpi }}
+                {{ this.hpi }}
             </div>
             <hr/>
             <div>
                 <b>Review of Systems</b>
                 <br/>
-                {{ this.recordObj.ros }}
+                {{ this.ros }}
             </div>
             <hr/>
             <div>
                 <b>Physical Exam</b>
                 <br/>
-                {{ this.recordObj.exam }}
+                {{ this.exam }}
             </div>
             <hr/>
             <div>
@@ -80,25 +80,38 @@ app.component('record-form', {
             <div>
                 <b>Assessment & Plan</b>
                 <br/>
-                {{ this.recordObj.assessment }}
+                {{ this.assessment }}
             </div>
             <hr/>
             <button type="button" class="btn btn-primary" @click="toggleComplete">Ammend record</button>
         </div>`,
     data() {
         return {
-            complete: JSON.parse(this.record).complete,
-            diagnoses: new Set()
+            hpi: "",
+            ros: "",
+            exam: "",
+            diagnoses: new Set(),
+            assessment: "",
+            complete: null
         }
     },
-    mounted() {
+    created() {
+        this.hpi = this.recordObj.hpi;
+        this.ros = this.recordObj.ros;
+        this.exam = this.recordObj.exam;
         this.recordObj.diagnoses.forEach(icd => this.fetchDiagnosis(icd));
+        this.assessment = this.recordObj.assessment;
+        this.complete = this.recordObj.complete;
     },
     watch: {
-        record(newRecord) {
-            this.complete = JSON.parse(newRecord).complete;
+        record() {
+            this.hpi = this.recordObj.hpi;
+            this.ros = this.recordObj.ros;
+            this.exam = this.recordObj.exam;
             this.diagnoses = new Set();
             this.recordObj.diagnoses.forEach(icd => this.fetchDiagnosis(icd));
+            this.assessment = this.recordObj.assessment;
+            this.complete = this.recordObj.complete;
         }
     },
     computed: {
@@ -119,21 +132,36 @@ app.component('record-form', {
             .then(response => response.json())
             .then(json => this.diagnoses.add(json[3][0][1]));
         },
+        fetchIcd(diagnosis) {
+            var icd;
+            fetch('https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=' + diagnosis)
+            .then(response => response.json())
+            .then(json => icd = json[3][0][0]);
+            return icd;
+        },
         updateHpi(updatedValue) {
+            this.hpi = updatedValue;
             this.$emit('recordChange', { "hpi": updatedValue });
         },
         updateRos(updatedValue) {
+            this.ros = updatedValue;
             this.$emit('recordChange', { "ros": updatedValue });
         },
         updateExam(updatedValue) {
+            this.exam = updatedValue;
             this.$emit('recordChange', { "exam": updatedValue });
         },
         updateAssessment(updatedValue) {
+            this.assessment = updatedValue;
             this.$emit('recordChange', { "assessment": updatedValue });
         },
         addDiagnosis(newIcd) {
             this.fetchDiagnosis(newIcd);
             this.$emit('recordChange', { "diagnoses": newIcd });
+        },
+        removeDiagnosis(diagnosis) {
+            let icd = this.fetchIcd(diagnosis);
+            this.$emit('recordChange', { "diagnoses": icd });
         },
         toggleComplete() {
             this.complete = !this.complete;
