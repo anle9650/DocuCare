@@ -10,7 +10,6 @@
                 <a href="#allSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">All</a>
                 <ul class="collapse list-unstyled" id="allSubmenu">
                     <record-display 
-                        v-if="result != null" 
                         v-for="(record, index) in result.data.records" 
                         :key="record.id" 
                         :record="JSON.stringify(record)" 
@@ -18,14 +17,12 @@
                         @mouseleave="blurForm = false" 
                         @click="setRecord(record)"
                     ></record-display>
-                    <li v-else>No results found.</li>
                 </ul>
             </li>
             <li>
                 <a href="#arrivedSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Arrived</a>
                 <ul class="collapse list-unstyled" id="arrivedSubmenu">
                     <record-display 
-                        v-if="result != null" 
                         v-for="(record, index) in arrived" 
                         :key="record.id" 
                         :record="JSON.stringify(record)" 
@@ -33,14 +30,12 @@
                         @mouseleave="blurForm = false" 
                         @click="setRecord(record)"
                     ></record-display>
-                    <li v-else>No results found.</li>
                 </ul>
             </li>
             <li>
                 <a href="#incompleteSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incomplete</a>
                 <ul class="collapse list-unstyled" id="incompleteSubmenu">
                     <record-display 
-                        v-if="result != null" 
                         v-for="(record, index) in incomplete" 
                         :key="record.id" 
                         :record="JSON.stringify(record)" 
@@ -48,7 +43,6 @@
                         @mouseleave="blurForm = false" 
                         @click="setRecord(record)"
                     ></record-display>
-                    <li v-else>No results found.</li>
                 </ul>
             </li>
         </ul>
@@ -84,7 +78,7 @@
                     aria-label="Search" />
                 </div>
             </nav>
-        <record-form v-if="record != null" :record="JSON.stringify(record)" @record-change="updateRecord"></record-form>
+        <record-form v-if="record != null" :record="JSON.stringify(record)" @record-change="fetchRecords"></record-form>
         </div>
     </div>
 

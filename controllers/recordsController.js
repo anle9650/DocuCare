@@ -53,16 +53,51 @@ module.exports = {
         let recordId = req.params.id,
             recordParam = req.body;
         Record.findByIdAndUpdate(recordId, {
-            $addToSet: recordParam
+            $addToSet: { diagnoses: recordParam.diagnosis }
         })
-        .then(newRecord => {
-            res.locals.record = newRecord;
-            return Patient.findByIdAndUpdate(newRecord.patient, {
-                $addToSet: recordParam
+        .then(updatedRecord => {
+            res.locals.record = updatedRecord;
+            return Patient.findByIdAndUpdate(updatedRecord.patient, {
+                $addToSet: { diagnoses: recordParam.diagnosis }
             });
         })
-        .then(newPatient => {
-            res.locals.patient = newPatient;
+        .then(updatedPatient => {
+            res.locals.patient = updatedPatient;
+            res.locals.success = true;
+            next();
+        })
+        .catch(error => {
+            console.log(`Error updating record: ${error.message}`)
+            next(error);
+        });
+    },
+    removeDiagnosis: (req, res, next) => {
+        let recordId = req.params.id,
+            recordParam = req.body;
+        Record.findByIdAndUpdate(recordId, {
+            $pull: { diagnoses: recordParam.diagnosis }
+        })
+        .then(updatedRecord => {
+            res.locals.record = updatedRecord;
+            return Record.find({ patient: updatedRecord.patient });
+        })
+        .then(patientRecords => {
+            var diagnosisExists = false;
+            patientRecords.forEach(record => {
+                if (record.diagnoses.includes(recordParam.diagnosis))
+                    diagnosisExists = true; 
+            });
+            if (diagnosisExists)
+                next();
+            else {
+                let patientId = patientRecords[0].patient;
+                return Patient.findByIdAndUpdate(patientId, {
+                    $pull: { diagnoses: recordParam.diagnosis }
+                });
+            }
+        })
+        .then(updatedPatient => {
+            res.locals.patient = updatedPatient;
             res.locals.success = true;
             next();
         })

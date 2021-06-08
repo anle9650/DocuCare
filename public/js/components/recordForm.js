@@ -33,11 +33,11 @@ app.component('record-form', {
                 </div>
                 <div class="form-group">
                     <label>Diagnoses</label>
-                    <search-bar :key="this.recordObj._id" @select-diagnosis="addDiagnosis"></search-bar>
+                    <search-diagnoses :key="this.recordObj._id" @select-diagnosis="addDiagnosis"></search-diagnoses>
                     <div v-for="diagnosis in this.diagnoses">
                         <div class="badge badge-pill badge-secondary">
-                            {{ diagnosis }}
-                            <a href="#"><i class="bi bi-x"></i></a>
+                            {{ diagnosis.name }} &#183; {{ diagnosis.icd }}
+                            <a href="#" @click="removeDiagnosis(diagnosis.icd)"><i class="bi bi-x"></i></a>
                         </div>
                         <br/>
                     </div>
@@ -73,7 +73,7 @@ app.component('record-form', {
                 <b>Diagnoses</b>
                 <br/>
                 <ul>
-                    <li v-for="diagnosis in this.diagnoses">{{ diagnosis }}</li>
+                    <li v-for="diagnosis in this.diagnoses">{{ diagnosis.name }} &#183; {{ diagnosis.icd }}</li>
                 </ul>
             </div>
             <hr/>
@@ -129,43 +129,50 @@ app.component('record-form', {
     methods: {
         fetchDiagnosis(icd) {
             fetch('https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=' + icd)
-            .then(response => response.json())
-            .then(json => this.diagnoses.add(json[3][0][1]));
+                .then(response => response.json())
+                .then(json => this.diagnoses.add(
+                    {
+                        icd: icd,
+                        name: json[3][0][1]
+                    })
+                );
         },
-        fetchIcd(diagnosis) {
-            var icd;
-            fetch('https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=' + diagnosis)
-            .then(response => response.json())
-            .then(json => icd = json[3][0][0]);
-            return icd;
+        updateRecord(patch) {
+            axios.patch('/api/records/' + this.recordObj._id + '/patch', patch)
+                .then(() => this.$emit('recordChange'));
         },
         updateHpi(updatedValue) {
             this.hpi = updatedValue;
-            this.$emit('recordChange', { "hpi": updatedValue });
+            this.updateRecord({ "hpi": updatedValue });
         },
         updateRos(updatedValue) {
             this.ros = updatedValue;
-            this.$emit('recordChange', { "ros": updatedValue });
+            this.updateRecord({ "ros": updatedValue });
         },
         updateExam(updatedValue) {
             this.exam = updatedValue;
-            this.$emit('recordChange', { "exam": updatedValue });
+            this.updateRecord({ "exam": updatedValue });
         },
         updateAssessment(updatedValue) {
             this.assessment = updatedValue;
-            this.$emit('recordChange', { "assessment": updatedValue });
+            this.updateRecord({ "assessment": updatedValue });
         },
-        addDiagnosis(newIcd) {
-            this.fetchDiagnosis(newIcd);
-            this.$emit('recordChange', { "diagnoses": newIcd });
+        addDiagnosis(icd) {
+            this.fetchDiagnosis(icd);
+            axios.patch('/api/records/' + this.recordObj._id + '/addDiagnosis', { "diagnosis": icd })
+                .then(() => this.$emit('recordChange'));
         },
-        removeDiagnosis(diagnosis) {
-            let icd = this.fetchIcd(diagnosis);
-            this.$emit('recordChange', { "diagnoses": icd });
+        removeDiagnosis(icd) {
+            this.diagnoses.forEach(diagnosis => {
+                if (diagnosis.icd === icd)
+                    this.diagnoses.delete(diagnosis);
+            });
+            axios.patch('/api/records/' + this.recordObj._id + '/removeDiagnosis', { "diagnosis": icd })
+                .then(() => this.$emit('recordChange'));
         },
         toggleComplete() {
             this.complete = !this.complete;
-            this.$emit('recordChange', { "complete": this.complete });
+            this.updateRecord({ "complete": this.complete });
         }
     }
 })

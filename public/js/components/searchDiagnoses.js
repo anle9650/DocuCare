@@ -1,11 +1,11 @@
-app.component('search-bar', {
+app.component('search-diagnoses', {
     emits: {
         selectDiagnosis: null
     },
     template:
         /*html*/
         `<div>
-            <input type="text" class="form-control" placeholder="Search for a diagnosis." 
+            <input type="text" class="form-control" placeholder="Search for a diagnosis" 
                 v-model="query" 
                 @focus="focusSearchbar = true" 
                 @focusout="focusSearchbar = false"
