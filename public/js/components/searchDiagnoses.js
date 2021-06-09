@@ -18,7 +18,7 @@ app.component('search-diagnoses', {
                     :key="diagnosis.id" 
                     @mouseover="hoverResults = true" 
                     @mouseleave="hoverResults = false"
-                    @click="emitDiagnosis(diagnosis)" 
+                    @click="selectDiagnosis(diagnosis)" 
                 >{{ diagnosis[1] }}</a>
             </div>
        </div>`,
@@ -44,7 +44,7 @@ app.component('search-diagnoses', {
                 .then(response => response.json())
                 .then(json => this.results = json[3]);
         },
-        emitDiagnosis(diagnosis) {
+        selectDiagnosis(diagnosis) {
             this.query = "";
             this.$emit('selectDiagnosis', diagnosis[0]);
         }

@@ -159,7 +159,7 @@ app.component('record-form', {
         },
         addDiagnosis(icd) {
             this.fetchDiagnosis(icd);
-            axios.patch('/api/records/' + this.recordObj._id + '/addDiagnosis', { "diagnosis": icd })
+            axios.patch('/api/records/' + this.recordObj._id + '/addDiagnosis/' + icd)
                 .then(() => this.$emit('recordChange'));
         },
         removeDiagnosis(icd) {
@@ -167,7 +167,7 @@ app.component('record-form', {
                 if (diagnosis.icd === icd)
                     this.diagnoses.delete(diagnosis);
             });
-            axios.patch('/api/records/' + this.recordObj._id + '/removeDiagnosis', { "diagnosis": icd })
+            axios.patch('/api/records/' + this.recordObj._id + '/removeDiagnosis/' + icd)
                 .then(() => this.$emit('recordChange'));
         },
         toggleComplete() {

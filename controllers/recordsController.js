@@ -51,14 +51,14 @@ module.exports = {
     },
     addDiagnosis: (req, res, next) => {
         let recordId = req.params.id,
-            recordParam = req.body;
+            diagnosis = req.params.diagnosis;
         Record.findByIdAndUpdate(recordId, {
-            $addToSet: { diagnoses: recordParam.diagnosis }
+            $addToSet: { diagnoses: diagnosis }
         })
         .then(updatedRecord => {
             res.locals.record = updatedRecord;
             return Patient.findByIdAndUpdate(updatedRecord.patient, {
-                $addToSet: { diagnoses: recordParam.diagnosis }
+                $addToSet: { diagnoses: diagnosis }
             });
         })
         .then(updatedPatient => {
@@ -73,9 +73,9 @@ module.exports = {
     },
     removeDiagnosis: (req, res, next) => {
         let recordId = req.params.id,
-            recordParam = req.body;
+            diagnosis = req.params.diagnosis;
         Record.findByIdAndUpdate(recordId, {
-            $pull: { diagnoses: recordParam.diagnosis }
+            $pull: { diagnoses: diagnosis }
         })
         .then(updatedRecord => {
             res.locals.record = updatedRecord;
@@ -84,7 +84,7 @@ module.exports = {
         .then(patientRecords => {
             var diagnosisExists = false;
             patientRecords.forEach(record => {
-                if (record.diagnoses.includes(recordParam.diagnosis))
+                if (record.diagnoses.includes(diagnosis))
                     diagnosisExists = true; 
             });
             if (diagnosisExists)
@@ -92,7 +92,7 @@ module.exports = {
             else {
                 let patientId = patientRecords[0].patient;
                 return Patient.findByIdAndUpdate(patientId, {
-                    $pull: { diagnoses: recordParam.diagnosis }
+                    $pull: { diagnoses: diagnosis }
                 });
             }
         })
