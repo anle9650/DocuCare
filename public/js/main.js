@@ -4,8 +4,7 @@ const app = Vue.createApp({
             showSchedule: true,
             blurForm: false,
             provider: '60a4814bc1b17d208033beb2',
-            date: 'Tue%20May%2018%202021',
-            keyword: '',
+            date: '05/18/2021',
             result: null,
             record: null,
             patientRecords: null
@@ -15,15 +14,27 @@ const app = Vue.createApp({
         this.fetchRecords();
     },
     mounted() {
-        this.$nextTick(function() {
+        const self = this;
+        self.$nextTick(function() {
             $(".sidebar").mCustomScrollbar({
                 theme: "minimal"
             });
+            $('#datepicker').datepicker({
+                container: "#picker-container",
+                autoclose: true,
+                todayHighlight: true
+            })
+                .on('changeDate', function() {
+                    self.date = $('#datepicker').val();
+                });
         });
     },
     watch: {
+        date() {
+            this.fetchRecords();
+        },
         record(newRecord) {
-            fetch('/api/records/patients/' + newRecord.patient._id)
+            fetch('/api/records?patient=' + newRecord.patient._id)
                 .then(response => response.json())
                 .then(json => this.patientRecords = json.data.records);
         }
@@ -38,7 +49,7 @@ const app = Vue.createApp({
     },
     methods: {
         fetchRecords() {
-            fetch('/api/records/dates/' + this.date)
+            fetch('/api/records?provider=' + this.provider + '&date=' + this.date)
                 .then(response => response.json())
                 .then(json => this.result = json)
         },
