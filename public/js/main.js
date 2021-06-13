@@ -19,14 +19,14 @@ const app = Vue.createApp({
             $(".sidebar").mCustomScrollbar({
                 theme: "minimal"
             });
-            $('#datepicker').datepicker({
-                container: "#picker-container",
-                autoclose: true,
-                todayHighlight: true
-            })
-                .on('changeDate', function() {
-                    self.date = $('#datepicker').val();
-                });
+            // $('#datepicker').datepicker({
+            //     container: "#picker-container",
+            //     autoclose: true,
+            //     todayHighlight: true
+            // })
+            //     .on('changeDate', function() {
+            //         self.date = $('#datepicker').val();
+            //     });
         });
     },
     watch: {
