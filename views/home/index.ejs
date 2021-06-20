@@ -13,7 +13,6 @@
                 <a href="#allSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">All</a>
                 <ul class="collapse list-unstyled" id="allSubmenu">
                     <record-display 
-                        v-if="records"
                         v-for="(record, index) in records" 
                         :key="record.id" 
                         :record="JSON.stringify(record)" 
@@ -27,7 +26,6 @@
                 <a href="#arrivedSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Arrived</a>
                 <ul class="collapse list-unstyled" id="arrivedSubmenu">
                     <record-display 
-                        v-if="records"
                         v-for="(record, index) in arrived" 
                         :key="record.id" 
                         :record="JSON.stringify(record)" 
@@ -41,7 +39,6 @@
                 <a href="#incompleteSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incomplete</a>
                 <ul class="collapse list-unstyled" id="incompleteSubmenu">
                     <record-display 
-                        v-if="records"
                         v-for="(record, index) in incomplete" 
                         :key="record.id" 
                         :record="JSON.stringify(record)" 

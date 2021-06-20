@@ -12,10 +12,11 @@ const app = Vue.createApp({
             patientRecords: null
         }
     },
-    created() {
-        this.fetchRecords();
-    },
+    // created() {
+    //     this.fetchRecords();
+    // },
     mounted() {
+        this.fetchRecords();
         this.$nextTick(function() {
             $(".sidebar").mCustomScrollbar({
                 theme: "minimal"
