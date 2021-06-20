@@ -3,7 +3,7 @@ const app = Vue.createApp({
         return {
             showSchedule: true,
             blurForm: false,
-            provider: '60a4814bc1b17d208033beb2',
+            provider: '60ae74a467f70000156bdc12',
             date: '05/18/2021',
             records: null,
             arrived: null,
@@ -12,11 +12,10 @@ const app = Vue.createApp({
             patientRecords: null
         }
     },
-    // created() {
-    //     this.fetchRecords();
-    // },
-    mounted() {
+    created() {
         this.fetchRecords();
+    },
+    mounted() {
         this.$nextTick(function() {
             $(".sidebar").mCustomScrollbar({
                 theme: "minimal"
@@ -33,14 +32,6 @@ const app = Vue.createApp({
                 .then(json => this.patientRecords = json.data.records);
         }
     },
-    // computed: {
-    //     arrived() {
-    //         return this.records.filter(record => record.status === 'Waiting' || record.status === 'Ready');
-    //     },
-    //     incomplete() {
-    //         return this.records.filter(record => !record.complete);
-    //     }
-    // },
     methods: {
         fetchRecords() {
             fetch('/api/records?provider=' + this.provider + '&date=' + this.date)
