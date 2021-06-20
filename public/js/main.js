@@ -16,9 +16,7 @@ const app = Vue.createApp({
         this.fetchRecords();
     },
     mounted() {
-        const self = this;
-        self.$nextTick(function() {
-            this.fetchRecords();
+        this.$nextTick(function() {
             $(".sidebar").mCustomScrollbar({
                 theme: "minimal"
             });

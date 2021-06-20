@@ -48,7 +48,7 @@ app.component('record-form', {
                         <textarea-autosize id="assessment" name="assessment" v-model="this.assessment"></textarea-autosize>
                     </div>
                     
-                    <button type="button" class="btn btn-primary" @click="toggleComplete">Sign-off record</button>
+                    <button type="button" class="btn btn-primary" @click="this.complete = !this.complete">Sign-off record</button>
                 </form>
             </div>
             <div class="formatted-record" v-else>
