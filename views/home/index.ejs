@@ -13,7 +13,7 @@
                 <a href="#allSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">All</a>
                 <ul class="collapse list-unstyled" id="allSubmenu">
                     <record-display 
-                        v-for="(record, index) in result.data.records" 
+                        v-for="(record, index) in records" 
                         :key="record.id" 
                         :record="JSON.stringify(record)" 
                         @mouseover="blurForm = true" 
