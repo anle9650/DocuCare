@@ -5,7 +5,7 @@
             <h3>Schedule</h3>
         </div>
         <ul class="list-unstyled components">
-            <p class="col">
+            <p>
                 <label for="datepicker">Date</label>
                 <datepicker name="datepicker" v-model="date"></datepicker>
             </p>
@@ -70,18 +70,17 @@
     </nav>
     <!-- Page Content -->
     <div id="content">
-        <div :class="[ blurForm ? 'container blur' : 'container' ]">
+        <div class="container">
             <nav class="navbar navbar-expand-lg">
-                <button type="button" id="sidebarCollapse" class="btn btn-info" @click="showSchedule = !showSchedule">
+                <button type="button" id="sidebarCollapse" class="btn btn-info" v-show="record" @click="showSchedule = !showSchedule">
                     <i class="fas fa-align-left"></i>
                     <span> {{ showSchedule ? ' Show patient records' : ' Show schedule' }}</span>
                 </button>
-                <div class="col-4 mr-auto form-outline">
-                    <input type="search" id="form1" class="form-control" placeholder="Patient name or ID number"
-                    aria-label="Search" />
+                <div class="col-sm-4">
+                    <search-records @focus="blurForm = true" @focusout="blurForm = false" @select-record="setRecord"></search-records>
                 </div>
             </nav>
-        <record-form v-if="record != null" :record="JSON.stringify(record)" @record-change="fetchRecords"></record-form>
+            <record-form v-if="record != null" :class="{ blur: blurForm }" :record="JSON.stringify(record)" @record-change="fetchRecords"></record-form>
         </div>
     </div>
 

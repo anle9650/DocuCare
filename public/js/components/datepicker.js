@@ -22,6 +22,7 @@ app.component('datepicker', {
         self.$nextTick(function() {
             $('#datepicker').datepicker({
                 container: "#picker-container",
+                orientation: "left",
                 autoclose: true,
                 todayHighlight: true
             })

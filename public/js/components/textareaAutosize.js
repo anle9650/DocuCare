@@ -8,27 +8,27 @@ app.component('textarea-autosize', {
             type: String,
             default: null
         },
-        value: {
+        modelValue: {
             type: String,
             default: null
         }
     },
     emits: {
-        input: null
+        'update:modelValue': null
     },
     template:
         /*html*/
-        `<div class="grow-wrap" :data-replicated-value="replicatedValue">
-            <textarea class="form-control" :id="this.id" :name="this.name" v-model="replicatedValue" @input="$emit('input', this.replicatedValue)"></textarea>
+        `<div class="grow-wrap" :data-replicated-value="value">
+            <textarea class="form-control" :id="this.id" :name="this.name" v-model="value"></textarea>
         </div>`,
-    data() {
-        return {
-            replicatedValue: this.value
-        }
-    },
-    watch: {
-        key() {
-            this.replicatedValue = this.value;
+    computed: {
+        value: {
+            get() {
+                return this.modelValue
+            },
+            set(value) {
+                this.$emit('update:modelValue', value)
+            }
         }
     }
 })
