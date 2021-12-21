@@ -69,4 +69,5 @@ npm start
 
 * [Bootstrap](https://getbootstrap.com)
 * [axios](https://axios-http.com/docs/intro)
+* [popperjs](https://popper.js.org)
 * [mongoose](https://mongoosejs.com)
