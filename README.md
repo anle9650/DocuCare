@@ -28,14 +28,15 @@ Demo of the app hosted at: https://DocuCare.herokuapp.com
 
 ```bash
 # Clone project 
-git clone https://github.com/anle9650/InveStats.git
+git clone https://github.com/anle9650/DocuCare.git
 
 # Install dependencies
 npm install
 
 # Load sample data
-node server/PortfolioSeed.js
-node server/StockSeed.js
+node providerSeed.js
+node patientSeed.js
+ndoe recordSeed.js
 
 # Run local server
 npm start
@@ -46,40 +47,26 @@ npm start
 ## Directory Structure
 
 ```
-├── client                         // client build
-│   ├── vue.config.js              // config
-│   ├── public                     // public assets
-│   │   ├── favicon.ico            // favicon
-│   │   └── index.html             // html template
-│   ├── src                        // source code
-│   │   ├── assets                 // static resource like themes, fonts
-│   │   ├── components             // global public components
-│   │   ├── App.vue                // entry view
-│   │   └── main.js                // entry for loading components, initialization
-│   ├── babel.config.js            // babel-loader config
-│   ├── .gitignore                 // gitignore
-│   └── package.json               // package.json
-├── server                         // server build
-│   ├── public                     // public assets 
-│   │   ├── css                    // css
-│   │   ├── js                     // js
-│   │   ├── favicon.ico            // favicon
-│   │   └── index.html             // html template
-│   ├── models                     // models
-│   ├── controllers                // controllers
-│   ├── routes                     // request routes
-│   ├── index.js                   // entry for server initialization
-│   ├── portfolioSeed.js           // load sample portfolio
-│   └── stockSeed.js               // load sample stocks
-├── .gitignore                     // gitignore 
-└── package.json                   // package.json
+├── public                     // public assets 
+│   ├── css                    // css
+│   ├── js                     // js
+│   │    ├── DocuCareApp.js    // entry for loading components, initialization 
+│   │    └── components        // global public components 
+│   ├── favicon.ico            // favicon
+│   └── index.html             // html template
+├── models                     // models
+├── controllers                // controllers
+├── routes                     // request routes
+├── main.js                    // entry for server initialization
+├── .gitignore                 // gitignore 
+├── package.json               // package.json
+├── providerSeed.js            // load sample provider
+├── patientSeed.js             // load sample patients
+└── recordSeed.js              // load sample records
 ```
 
 ## Acknowledgments
 
 * [Bootstrap](https://getbootstrap.com)
-* [apexcharts](https://apexcharts.com/docs/vue-charts/)
-* [vue-carousel](https://www.npmjs.com/package/@chenfengyuan/vue-carousel)
+* [axios](https://axios-http.com/docs/intro)
 * [mongoose](https://mongoosejs.com)
-* [Alpha Vantage](https://www.alphavantage.co)
-* [News API](https://newsapi.org)
