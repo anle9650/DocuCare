@@ -1,20 +1,21 @@
 # DocuCare
 
-A full-stack electronic medical records (EMR) app built with MVVM architecture and a RESTful API. Displays clinic schedule, retrieves and updates patient health history, and accesses hundreds of diagnoses and ICD-10 codes.
+A full-stack electronic medical records (EMR) app built with MVVM architecture and a RESTful API. Features a single page application that displays clinic schedule, retrieves and updates patient health history, and accesses hundreds of diagnoses and ICD-10 codes.
 
-
+<img width="1438" alt="Screen Shot 2021-12-21 at 10 31 02 AM" src="https://user-images.githubusercontent.com/77894900/146973436-7ed69a61-cf27-4740-8205-9d22f827ba70.png">
 
 ## Demo
 
-Demo of the app hosted at: https://DocoCare.herokuapp.com
+Demo of the app hosted at: https://DocuCare.herokuapp.com
 
 ## Features
 
-* Stock price line and candlestick charts for past day, week, month, MTD, YTD, 1 year, and 5 year time intervals.
-* Search, buy, and sell stocks by stock symbol or name.
-* Get personal performance stats, and general stock performance stats.
-* Donut chart visualizing total stock holdings.
-* News ticker displaying most recent news for all stocks held.
+* Clincal schedule on sidebar.
+* Automatically-resizing textareas.
+* Patient records automatically update-as-you-type to server.
+* Popover on hover over patients to quickly preview patient records witihout disrupting workflow.
+* Searchbar suggestions as you type.
+* Access to hundreds of diagnoses and ICD-10 (International Classification of Diseases, Tenth Revision) codes. 
 
 ## Technologies Used
 
