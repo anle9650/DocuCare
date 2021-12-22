@@ -1,6 +1,6 @@
 # DocuCare
 
-A full-stack electronic medical records (EMR) app built with MVVM architecture and a RESTful API. Features a single page application that displays clinic schedule, retrieves and updates patient health history, and accesses hundreds of diagnoses and ICD-10 codes.
+A full-stack electronic medical records (EMR) single page application built with MVVM architecture and a RESTful API. Displays clinic schedule, retrieves and updates patient health history, and accesses hundreds of diagnoses and ICD-10 codes.
 
 <img width="1438" alt="Screen Shot 2021-12-21 at 10 31 02 AM" src="https://user-images.githubusercontent.com/77894900/146973436-7ed69a61-cf27-4740-8205-9d22f827ba70.png">
 
@@ -17,12 +17,14 @@ Demo of the app hosted at: https://DocuCare.herokuapp.com
 * Searchbar suggestions as you type.
 * Access to hundreds of diagnoses and ICD-10 (International Classification of Diseases, Tenth Revision) codes. 
 
-## Technologies Used
+## Technologies
 
 * [MongoDB](https://www.mongodb.com)
+* [mongoose](https://mongoosejs.com)
 * [Express](https://expressjs.com)
 * [Vue](https://v3.vuejs.org)
 * [Node](https://nodejs.org/en/)
+* [Bootstrap](https://getbootstrap.com)
 
 ## Getting Started
 
@@ -67,7 +69,5 @@ npm start
 
 ## Acknowledgments
 
-* [Bootstrap](https://getbootstrap.com)
 * [axios](https://axios-http.com/docs/intro)
 * [popperjs](https://popper.js.org)
-* [mongoose](https://mongoosejs.com)
