@@ -10,7 +10,6 @@ Demo of the app hosted at: https://DocuCare.herokuapp.com
 
 ## Features
 
-* Clincal schedule on sidebar.
 * Automatically-resizing textareas.
 * Patient records automatically update-as-you-type to server.
 * Popover on hover over patients to quickly preview patient records witihout disrupting workflow.
