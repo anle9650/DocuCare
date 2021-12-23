@@ -38,7 +38,7 @@ npm install
 # Load sample data
 node providerSeed.js
 node patientSeed.js
-ndoe recordSeed.js
+node recordSeed.js
 
 # Run local server
 npm start
