@@ -12,7 +12,7 @@ Demo of the app hosted at: https://DocuCare.herokuapp.com
 
 * Automatically-resizing textareas.
 * Patient records automatically update-as-you-type to server.
-* Popover when hovering over patients to quickly preview patient records witihout disrupting workflow.
+* Popover when hovering over patients to quickly preview patient records without disrupting workflow.
 * Searchbar suggestions as you type.
 * Access to hundreds of diagnoses and ICD-10 (International Classification of Diseases, Tenth Revision) codes. 
 
