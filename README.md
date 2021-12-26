@@ -72,7 +72,7 @@ npm start
 ### Fetch
 ``` bash
 GET /api/records
-GET /api//patients/:id
+GET /api/patients/:id
 ```
 ### Patch
 ``` bash
