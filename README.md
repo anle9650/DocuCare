@@ -67,6 +67,31 @@ npm start
 └── recordSeed.js              // load sample records
 ```
 
+## API Documentation
+
+### Fetch
+``` bash
+GET /api/records
+GET /api//patients/:id
+```
+### Patch
+``` bash
+PATCH /records/:id/patch
+
+# request body (all optional)
+{
+ "hpi": string,
+ "ros": string,
+ "exam": string,
+ "assessment": string
+}
+```
+
+``` bash
+PATCH /records/:id/addDiagnosis/:diagnosis
+PATCH /records/:id/removeDiagnosis/:diagnosis
+```
+
 ## Acknowledgments
 
 * [axios](https://axios-http.com/docs/intro)
