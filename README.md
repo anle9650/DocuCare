@@ -76,7 +76,7 @@ GET /api/patients/:id
 ```
 ### Patch
 ``` bash
-PATCH /records/:id/patch
+PATCH /api/records/:id/patch
 
 # request body (all optional)
 {
@@ -88,8 +88,8 @@ PATCH /records/:id/patch
 ```
 
 ``` bash
-PATCH /records/:id/addDiagnosis/:diagnosis
-PATCH /records/:id/removeDiagnosis/:diagnosis
+PATCH /api/records/:id/addDiagnosis/:diagnosis
+PATCH /api/records/:id/removeDiagnosis/:diagnosis
 ```
 
 ## Acknowledgments
