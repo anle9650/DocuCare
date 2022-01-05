@@ -71,7 +71,7 @@ npm start
 
 ### Fetch
 ``` bash
-GET /api/records
+GET /api/records?provider={providerID}&date={date}&nameStarts={nameStarts}&patient={patientID}&diagnosis={diagnosis}
 GET /api/patients/:id
 ```
 ### Patch
